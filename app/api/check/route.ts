@@ -117,7 +117,7 @@ export async function POST(req: NextRequest) {
     await createCommitStatus(
       octokit, repoOwner, repoName,
       prData.head.sha, "pending",
-      "Spec.cop is analysing your PR..."
+      "Spec.cop is analyzing your PR..."
     );
 
     const report = await generateComplianceReport({

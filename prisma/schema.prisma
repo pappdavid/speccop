@@ -6,6 +6,10 @@ generator client {
 }
 
 datasource db {
+  // In Prisma 7, the database URL is configured in prisma.config.ts
+  // rather than directly in the schema. For PrismaClient, the URL is
+  // provided via the DATABASE_URL environment variable through the
+  // PrismaPg adapter in lib/db.ts.
   provider = "postgresql"
 }
 

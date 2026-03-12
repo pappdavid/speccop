@@ -77,7 +77,7 @@ export default async function CheckDetailPage({ params }: PageProps) {
         {(check.status === "PENDING" || check.status === "RUNNING") && (
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-8 text-center">
             <div className="w-12 h-12 border-2 border-red-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-            <p className="text-zinc-300 font-medium">Spec.cop is analysing your PR...</p>
+            <p className="text-zinc-300 font-medium">Spec.cop is analyzing your PR...</p>
             <p className="text-zinc-500 text-sm mt-2">This usually takes 15–30 seconds. Brace yourself.</p>
           </div>
         )}

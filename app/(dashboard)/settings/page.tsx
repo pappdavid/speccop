@@ -3,11 +3,12 @@ import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Shield, ArrowLeft, Check, Github, Zap, AlertCircle } from "lucide-react";
+import { randomUUID } from "crypto";
 
-async function connectLinear(formData: FormData) {
+async function connectLinear(_formData: FormData) {
   "use server";
   // Redirect to Linear OAuth
-  const state = crypto.randomUUID();
+  const state = randomUUID();
   const params = new URLSearchParams({
     response_type: "code",
     client_id: process.env.LINEAR_CLIENT_ID ?? "",
@@ -16,14 +17,6 @@ async function connectLinear(formData: FormData) {
     state,
   });
   redirect(`https://linear.app/oauth/authorize?${params}`);
-}
-
-async function saveSettings(formData: FormData) {
-  "use server";
-  const session = await auth();
-  if (!session?.user?.id) redirect("/login");
-
-  // Settings are handled via individual forms; this is a placeholder
 }
 
 export default async function SettingsPage() {

@@ -34,7 +34,8 @@ function extractJiraText(description: JiraIssue["fields"]["description"]): strin
 export async function getJiraIssue(
   accessToken: string,
   cloudId: string,
-  issueKey: string
+  issueKey: string,
+  cloudUrl?: string
 ) {
   const url = `https://api.atlassian.com/ex/jira/${cloudId}/rest/api/3/issue/${issueKey}`;
   const response = await fetch(url, {
@@ -49,17 +50,20 @@ export async function getJiraIssue(
   }
 
   const issue: JiraIssue = await response.json();
+  const baseUrl = cloudUrl ?? `https://api.atlassian.com/ex/jira/${cloudId}`;
   return {
     id: issue.id,
     key: issue.key,
     title: issue.fields.summary,
     description: extractJiraText(issue.fields.description),
-    url: `https://your-domain.atlassian.net/browse/${issue.key}`,
+    url: `${baseUrl}/browse/${issue.key}`,
     status: issue.fields.status.name,
   };
 }
 
-export async function getJiraCloudId(accessToken: string): Promise<string> {
+export async function getJiraCloudInfo(
+  accessToken: string
+): Promise<{ id: string; name: string; url: string }> {
   const response = await fetch(
     "https://api.atlassian.com/oauth/token/accessible-resources",
     {
@@ -81,5 +85,10 @@ export async function getJiraCloudId(accessToken: string): Promise<string> {
     throw new Error("No Jira cloud instances found for this account");
   }
 
-  return resources[0].id;
+  return resources[0];
+}
+
+export async function getJiraCloudId(accessToken: string): Promise<string> {
+  const info = await getJiraCloudInfo(accessToken);
+  return info.id;
 }

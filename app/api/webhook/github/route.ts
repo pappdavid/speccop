@@ -139,7 +139,7 @@ async function runCheck(
   const repoName = repo.name;
 
   // Post "pending" status
-  await createCommitStatus(octokit, owner, repoName, pr.head.sha, "pending", "Spec.cop is analysing your PR...");
+  await createCommitStatus(octokit, owner, repoName, pr.head.sha, "pending", "Spec.cop is analyzing your PR...");
 
   // Get the diff
   const diff = await getPullRequestDiff(octokit, owner, repoName, pr.number);
